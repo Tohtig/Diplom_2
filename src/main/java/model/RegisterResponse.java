@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RegisterResponse {
 
-    private boolean success;
+    private Boolean success;
     private String message;
     private User user;
     private String accessToken;

@@ -3,7 +3,6 @@ package client;
 import io.restassured.config.RedirectConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
@@ -15,15 +14,30 @@ public class BaseHttpClient {
             .sslConfig(new SSLConfig().relaxedHTTPSValidation())
             .redirect(new RedirectConfig().followRedirects(true));
 
-    protected Response doGetRequest(String uri) {
+    protected ValidatableResponse doGetRequest(String uri) {
         return given().config(config)
                 .header("Content-Type", JSON)
-                .get(uri);
+                .get(uri).then();
+    }
+
+    protected ValidatableResponse doGetRequest(String uri, String accessToken) {
+        return given().config(config)
+                .header("Content-Type", JSON)
+                .auth().oauth2(accessToken)
+                .get(uri).then();
     }
 
     protected ValidatableResponse doPostRequest(String uri, Object body) {
         return given().config(config)
                 .header("Content-Type", JSON)
+                .body(body)
+                .post(uri).then();
+    }
+
+    protected ValidatableResponse doPostRequest(String uri, Object body, String accessToken) {
+        return given().config(config)
+                .header("Content-Type", JSON)
+                .auth().oauth2(accessToken)
                 .body(body)
                 .post(uri).then();
     }
