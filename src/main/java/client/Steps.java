@@ -1,6 +1,5 @@
-package diplom2;
+package client;
 
-import client.BaseHttpClient;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import model.Login;
@@ -13,7 +12,6 @@ import java.util.List;
 
 public class Steps extends BaseHttpClient {
     private final String baseUrl = "https://stellarburgers.nomoreparties.site/api";
-//    private final String mock = "http://localhost:8082/api";
 
     @Step("Авторизация пользователя в системе")
     public ValidatableResponse login(UserAccount account) {

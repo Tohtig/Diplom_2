@@ -1,8 +1,7 @@
 package diplom2;
 
+import client.Steps;
 import com.github.javafaker.Faker;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.qameta.allure.junit4.DisplayName;
 import model.UserAccount;
 import model.orders.Orders;
@@ -18,7 +17,7 @@ import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class UserGetOrdersResponse {
+public class UserGetOrdersResponseTest {
     private static final String AUTH_ERROR = "You should be authorised";
     private static final Orders ORDERS_WITH_INGREDIENTS = new Orders().setIngredients(new String[]{"61c0c5a71d1f82001bdaaa7a",
             "61c0c5a71d1f82001bdaaa6c",
@@ -61,11 +60,6 @@ public class UserGetOrdersResponse {
                 .body("success", equalTo(true)).and()
                 .body("orders[0]._id", equalTo(orderId))
                 .extract().body().as(OrdersResponse.class);
-
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        System.out.println(gson.toJson(ordersResponse));
     }
 
     @After

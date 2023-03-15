@@ -1,5 +1,6 @@
 package diplom2;
 
+import client.Steps;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -23,6 +24,7 @@ public class UserCreateTest {
     private final Steps steps = new Steps();
     private UserAccount account;
     private List<UserAccount> testData;
+    private final static String FIELDLESS_ERROR = "Email, password and name are required fields";
 
     @Before
     public void setUp() {
@@ -53,30 +55,39 @@ public class UserCreateTest {
     }
 
     @Test
-    @DisplayName("создать пользователя и не заполнить одно из обязательных полей")
-    public void createFieldlessReturnsError() {
-        String expectMessage = "Email, password and name are required fields";
+    @DisplayName("создать пользователя и не заполнить обязательное поле - password")
+    public void createPasswordFieldlessReturnsError() {
         account = new UserAccount();
         testData.add(account);
         account.setEmail(faker.internet().emailAddress());
         account.setName(faker.name().firstName());
         steps.createUser(account).assertThat()
                 .statusCode(HttpStatus.SC_FORBIDDEN).and()
-                .body("message", equalTo(expectMessage));
+                .body("message", equalTo(FIELDLESS_ERROR));
+    }
+
+    @Test
+    @DisplayName("создать пользователя и не заполнить обязательное поле - email")
+    public void createEmailFieldlessReturnsError() {
         account = new UserAccount();
         testData.add(account);
         account.setPassword(faker.internet().password());
         account.setName(faker.name().firstName());
         steps.createUser(account).assertThat()
                 .statusCode(HttpStatus.SC_FORBIDDEN).and()
-                .body("message", equalTo(expectMessage));
+                .body("message", equalTo(FIELDLESS_ERROR));
+    }
+
+    @Test
+    @DisplayName("создать пользователя и не заполнить обязательное поле - name")
+    public void createNameFieldlessReturnsError() {
         account = new UserAccount();
         testData.add(account);
         account.setEmail(faker.internet().emailAddress());
         account.setPassword(faker.internet().password());
         steps.createUser(account).assertThat()
                 .statusCode(HttpStatus.SC_FORBIDDEN).and()
-                .body("message", equalTo(expectMessage));
+                .body("message", equalTo(FIELDLESS_ERROR));
     }
 
     @After

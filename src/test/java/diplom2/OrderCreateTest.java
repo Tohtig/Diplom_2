@@ -1,8 +1,7 @@
 package diplom2;
 
+import client.Steps;
 import com.github.javafaker.Faker;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.qameta.allure.junit4.DisplayName;
 import model.UserAccount;
 import model.orders.Orders;
@@ -54,11 +53,6 @@ public class OrderCreateTest {
                 .body("success", equalTo(true)).and()
                 .body("order.status", equalTo("done")).and()
                 .extract().body().as(OrdersResponse.class);
-
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-        System.out.println(gson.toJson(ordersResponse));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package diplom2;
 
+import client.Steps;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import model.RegisterResponse;
